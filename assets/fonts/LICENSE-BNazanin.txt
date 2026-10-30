@@ -1,0 +1,9 @@
+B Nazanin font files
+Source page: https://fontchi.com/fonts/bnazanin/
+Downloaded package: https://dl.fontchi.com/fonts/b-series/Bnazanin.zip
+Download date: 2026-10-29
+Original designer/publisher metadata: Borna Rayaneh / Parsa 2001, Version 2.01 - Build 1379.
+
+The source page distributes the font as FREE. The WOFF2 files in the downloaded package were converted by fontchi.com; the TTF files are included as the original fallback format.
+This project uses the font locally/self-hosted with the user's explicit permission to download B Nazanin.
+No claim is made that the font is open-source under an OSI license. Keep this notice with the font files and verify any commercial redistribution requirements with the rights holder if the project's usage changes.
