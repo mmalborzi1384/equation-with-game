@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="محورِ انسانی — بازی کلاسی اعداد صحیح با محور اعداد و کارت نقش‌ها">
-<meta name="theme-color" content="#0e1530">
-<title>محورِ انسانی | بازی کلاسی اعداد صحیح</title>
+<meta name="description" content="محورِ انسانی — بازی کلاسی اعداد صحیح و کسری، ساده‌سازی عبارت، قرینه و کشف معادله با محور اعداد و کارت نقش‌ها">
+<meta name="theme-color" content="#0F172A" id="metaTheme">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('hnl-theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+<title>محورِ انسانی | بازی کلاسی ریاضی</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1530'/%3E%3Cpath d='M10 42h44M50 42l-6-4m6 4-6 4' stroke='%23a5b4fc' stroke-width='3' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='24' cy='24' r='6' fill='%23fbbf24'/%3E%3Cpath d='M24 30v10' stroke='%23fbbf24' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='40' cy='18' r='4.5' fill='%23fb7185'/%3E%3Cpath d='M40 23v8' stroke='%23fb7185' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="./assets/katex/katex.min.css">
 <link rel="stylesheet" href="./assets/glisse/glisse.css">
@@ -504,7 +505,10 @@ html[data-liquid="on"] .iconbtn:active,html[data-liquid="on"] .tab-btn:active,ht
 .math-render .katex{font-family:KaTeX_Main,'B Nazanin',math,'Times New Roman',serif;font-size:1em;font-weight:inherit;line-height:1}
 .math-render .katex .textrm{font-family:KaTeX_Main,'B Nazanin',serif}
 .kcard .math-render,.kface .math-render,.pcard .math-render{line-height:1}
+/* Repeated small controls keep the glass rim + jelly press but skip costly live backdrop blur (WebKit rAF stall guard). */
+[data-glass="control"]{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 </style>
+<link rel="stylesheet" href="./assets/css/lab.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -526,6 +530,12 @@ html[data-liquid="on"] .iconbtn:active,html[data-liquid="on"] .tab-btn:active,ht
 <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10z"/><circle cx="12" cy="12" r="3"/></symbol>
 <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
 <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+<symbol id="i-wand" viewBox="0 0 24 24"><path d="m15 4 5 5M4 20 15 9l-4-4L0 16z"/><path d="M19 2v4M21 4h-4M5 3v2M6 4H4M19 16v4M21 18h-4"/></symbol>
+<symbol id="i-mirror" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M8 7H4v10h4M16 7h4v10h-4"/></symbol>
+<symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M5 7h14M5 7l-3 7h6zM19 7l-3 7h6zM8 21h8"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="m21 8-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></symbol>
 </defs></svg>
 <a class="skip-link" href="#main-content">رفتن به محتوای اصلی</a>
 <div class="app">
@@ -545,10 +555,11 @@ html[data-liquid="on"] .iconbtn:active,html[data-liquid="on"] .tab-btn:active,ht
       </div>
       <div>
         <h1>محورِ انسانی</h1>
-        <p class="tagline">بازی کلاسیِ اعداد صحیح — با محورِ اعداد و کارتِ نقش‌ها</p>
+        <p class="tagline">بازی کلاسیِ ریاضی — محورِ اعداد، کسرها، عبارت‌ها و کشفِ معادله</p>
       </div>
     </div>
     <div class="top-actions">
+      <button class="iconbtn" id="btnTheme" data-glass="control" type="button" title="تغییر حالت روز/شب" aria-label="تغییر حالت روز/شب" aria-pressed="false"><svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
       <button class="iconbtn" id="btnSound" data-glass="control" type="button" title="خاموش کردن صدا" aria-label="خاموش کردن صدا" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#i-volume"/></svg></button>
       <button class="iconbtn" id="btnFull" data-glass="control" type="button" title="تمام‌صفحه" aria-label="تمام‌صفحه" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
     </div>
@@ -557,6 +568,9 @@ html[data-liquid="on"] .iconbtn:active,html[data-liquid="on"] .tab-btn:active,ht
   <nav class="tabs" role="tablist" data-glass="control" aria-label="بخش‌های برنامه">
     <span class="tab-indicator" aria-hidden="true" data-glass="lens"></span>
     <button class="tab-btn active" id="tab-game-tab" data-tab="tab-game" type="button" role="tab" aria-selected="true" aria-controls="tab-game" tabindex="0"><svg class="icon" aria-hidden="true"><use href="#i-gamepad"/></svg><span>بازی</span></button>
+    <button class="tab-btn" id="tab-simplify-tab" data-tab="tab-simplify" type="button" role="tab" aria-selected="false" aria-controls="tab-simplify" tabindex="-1"><svg class="icon" aria-hidden="true"><use href="#i-wand"/></svg><span>ساده‌سازی</span></button>
+    <button class="tab-btn" id="tab-negate-tab" data-tab="tab-negate" type="button" role="tab" aria-selected="false" aria-controls="tab-negate" tabindex="-1"><svg class="icon" aria-hidden="true"><use href="#i-mirror"/></svg><span>قرینه</span></button>
+    <button class="tab-btn" id="tab-discover-tab" data-tab="tab-discover" type="button" role="tab" aria-selected="false" aria-controls="tab-discover" tabindex="-1"><svg class="icon" aria-hidden="true"><use href="#i-scale"/></svg><span>کشف معادله</span></button>
     <button class="tab-btn" id="tab-guide-tab" data-tab="tab-guide" type="button" role="tab" aria-selected="false" aria-controls="tab-guide" tabindex="-1"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>راهنمای اجرا</span></button>
     <button class="tab-btn" id="tab-cards-tab" data-tab="tab-cards" type="button" role="tab" aria-selected="false" aria-controls="tab-cards" tabindex="-1"><svg class="icon" aria-hidden="true"><use href="#i-cards"/></svg><span>چاپ کارت‌ها</span></button>
   </nav>
@@ -569,6 +583,15 @@ html[data-liquid="on"] .iconbtn:active,html[data-liquid="on"] .tab-btn:active,ht
         <!-- ستون کنترل -->
         <aside class="controls card" aria-label="کنترل‌های بازی" data-glass="reading">
           <div class="sec">
+            <div class="segmented" id="numberMode" data-glass="control" role="group" aria-label="نوع عددهای محور">
+              <span class="segmented-indicator" aria-hidden="true" data-glass="lens"></span>
+              <button type="button" data-mode="integer" aria-pressed="true">عددهای صحیح</button>
+              <button type="button" data-mode="fraction" aria-pressed="false">کسرها</button>
+            </div>
+            <div class="fraction-tools" id="fractionTools" hidden>
+              <p class="hint" id="fractionHint">کسرها را با خطِ کسر بنویس؛ مثل <b class="n">۱/۲+۱/۳</b>. کلیدِ ÷ همان خطِ کسر است. محاسبه دقیقِ کسری انجام می‌شود.</p>
+              <div class="example-row" id="fractionExamples" role="group" aria-label="نمونه‌های کسری"></div>
+            </div>
             <h2><svg class="icon" aria-hidden="true"><use href="#i-calc"/></svg><label for="expr">عبارتِ ریاضی</label></h2>
             <input id="expr" type="text" name="expression" spellcheck="false" autocomplete="off" inputmode="text" placeholder="مثلاً  ۲×(۳+۴)  یا  ۲+۳x=۱۱…" aria-describedby="expr-hint exprError">
             <p class="field-error" id="exprError" role="alert" hidden></p>
@@ -618,10 +641,10 @@ html[data-liquid="on"] .iconbtn:active,html[data-liquid="on"] .tab-btn:active,ht
             <h2><svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg>تنظیمات</h2>
             <div class="speed-row">
               <span class="speed-end" aria-hidden="true">کند</span>
-              <input type="range" id="speed" name="speed" min="0.5" max="2" step="0.1" value="1" aria-label="سرعت اجرای بازی" aria-valuetext="۱ برابر سرعت پایه">
+              <input type="range" id="speed" name="speed" min="0.25" max="1.25" step="0.05" value="0.75" aria-label="سرعت اجرای بازی" aria-valuetext="۰٫۷۵ برابر سرعت پایه">
               <span class="liquid-slider-thumb" data-liquid-slider-thumb aria-hidden="true"></span>
               <span class="speed-end" aria-hidden="true">تند</span>
-              <output class="speed-val" id="speedVal" for="speed">×۱٫۰</output>
+              <output class="speed-val" id="speedVal" for="speed">×۰٫۷۵</output>
             </div>
             <label class="sw" for="swSound">
               <span class="sw-label"><svg class="icon" aria-hidden="true"><use href="#i-volume"/></svg><span>صداهای بازی</span></span>
@@ -678,6 +701,84 @@ html[data-liquid="on"] .iconbtn:active,html[data-liquid="on"] .tab-btn:active,ht
           <div class="timeline card" data-glass="reading" id="timeline" role="list" aria-label="گام‌های حرکت">
             <span class="tl-hint" role="listitem">گام‌های حرکت اینجا ثبت می‌شوند…</span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ تب ساده‌سازی ═══════════ -->
+    <section class="panel" id="tab-simplify" role="tabpanel" aria-labelledby="tab-simplify-tab" hidden>
+      <div class="lab-hero" data-glass="reading"><h2>ساده‌سازی عبارت‌ها</h2><p>پرانتزها را باز کن، جمله‌های هم‌جنس را کنار هم بگذار و شکل کوتاه‌تر عبارت را ببین. نتیجه برای هر مقدار x با عبارت اصلی برابر است.</p></div>
+      <div class="lab-grid">
+        <div class="lab-card card" data-glass="reading">
+          <h3><label for="simplifyInput">عبارت را بنویس</label></h3>
+          <input class="lab-input" id="simplifyInput" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="2x+5-(6+8x)" aria-describedby="simplifyError">
+          <p class="field-error" id="simplifyError" role="alert" hidden></p>
+          <div class="example-row" id="simplifyExamples" role="group" aria-label="نمونه‌های ساده‌سازی"></div>
+          <div class="btn-row"><button class="btn btn-primary" id="simplifyRun" data-glass="lens" type="button">ساده کن</button><button class="btn btn-ghost" id="simplifyReset" data-glass="control" type="button">از نو</button></div>
+        </div>
+        <div class="lab-card card" data-glass="reading">
+          <h3>قدم‌به‌قدم</h3>
+          <div class="lab-output" id="simplifyOutput" aria-live="polite"><p class="tl-hint">یک عبارت بنویس و «ساده کن» را بزن.</p></div>
+          <div class="lab-note">نکته: ساده‌سازی یعنی تغییر شکل، نه تغییر مقدار. اگر دو عبارت برای همهٔ x برابر باشند، هم‌ارزند.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ تب قرینه ═══════════ -->
+    <section class="panel" id="tab-negate" role="tabpanel" aria-labelledby="tab-negate-tab" hidden>
+      <div class="lab-hero" data-glass="reading"><h2>قرینهٔ عبارت‌ها</h2><p>قرینه یعنی علامت تک‌تک جمله‌ها عوض شود. مثل آینه‌ای که هر جمله را به نقطهٔ روبه‌روی صفر می‌برد.</p></div>
+      <div class="lab-grid">
+        <div class="lab-card card" data-glass="reading">
+          <h3><label for="negateInput">عبارت را بنویس</label></h3>
+          <input class="lab-input" id="negateInput" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="5x-6" aria-describedby="negateError">
+          <p class="field-error" id="negateError" role="alert" hidden></p>
+          <div class="example-row" id="negateExamples" role="group" aria-label="نمونه‌های قرینه"></div>
+          <div class="btn-row"><button class="btn btn-primary" id="negateRun" data-glass="lens" type="button">قرینه کن</button><button class="btn btn-ghost" id="negateReset" data-glass="control" type="button">از نو</button></div>
+        </div>
+        <div class="lab-card card" data-glass="reading">
+          <h3>آینهٔ عبارت</h3>
+          <div class="lab-output" id="negateOutput" aria-live="polite"><p class="tl-hint">یک عبارت بنویس و «قرینه کن» را بزن.</p></div>
+          <div class="lab-note">نکته: قرینهٔ <b class="n">5x−6</b> می‌شود <b class="n">−5x+6</b>؛ فقط علامت اولین جمله عوض نمی‌شود.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ تب کشف معادله ═══════════ -->
+    <section class="panel" id="tab-discover" role="tabpanel" aria-labelledby="tab-discover-tab" hidden>
+      <div class="lab-hero" data-glass="reading"><h2>کشف معادله با ترازو و جعبه‌ها</h2><p>معلم یک معادله می‌نویسد. دانش‌آموز با کم‌کردنِ هم‌زمانِ جعبه‌های x و واحدها از دو کفه، تعادل را نگه می‌دارد تا مقدار x پیدا شود.</p></div>
+      <div class="lab-grid">
+        <div class="lab-card card" data-glass="reading">
+          <h3><label for="discoverInput">معادلهٔ معلم</label></h3>
+          <input class="lab-input" id="discoverInput" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="2x+3=11" aria-describedby="discoverError">
+          <p class="field-error" id="discoverError" role="alert" hidden></p>
+          <div class="example-row" id="discoverExamples" role="group" aria-label="نمونه‌های کشف معادله"></div>
+          <div class="btn-row"><button class="btn btn-primary" id="discoverLoad" data-glass="lens" type="button">شروع کشف</button><button class="btn btn-ghost" id="discoverReset" data-glass="control" type="button">از نو</button></div>
+          <div class="discovery-controls">
+            <button class="btn btn-ghost" id="opRemoveX" data-glass="control" type="button">از دو طرف x کم کن</button>
+            <button class="btn btn-ghost" id="opRemoveUnit" data-glass="control" type="button">از دو طرف عدد ثابت کم کن</button>
+            <button class="btn btn-ghost" id="opDivide" data-glass="control" type="button">دو طرف را بر ضریب x تقسیم کن</button>
+          </div>
+          <div class="sec">
+            <h3>حدس بزن</h3>
+            <div class="guess-row">
+              <span class="speed-end" aria-hidden="true">−۱۰</span>
+              <input type="range" id="guessSlider" min="-10" max="10" step="1" value="0" aria-label="حدس عدد صحیح برای x">
+              <span class="liquid-slider-thumb" data-liquid-slider-thumb aria-hidden="true"></span>
+              <span class="speed-end" aria-hidden="true">+۱۰</span>
+            </div>
+            <div class="btn-row"><input class="lab-input" id="guessInput" type="text" inputmode="text" autocomplete="off" value="0" aria-label="حدس دقیق x؛ عدد یا کسر"><button class="btn btn-primary" id="guessCheck" data-glass="lens" type="button">بررسی حدس</button></div>
+          </div>
+        </div>
+        <div class="lab-card card" data-glass="reading">
+          <h3>ترازوی معادله</h3>
+          <div class="balance-wrap" data-glass="quiet">
+            <div class="balance-equation" id="balanceEquation"></div>
+            <div class="balance-beam" id="balanceBeam"></div><div class="balance-pivot"></div>
+            <div class="pans"><div class="pan" id="panLeft"><h4>کفهٔ چپ</h4><div class="pan-items"></div></div><div class="pan" id="panRight"><h4>کفهٔ راست</h4><div class="pan-items"></div></div></div>
+          </div>
+          <div class="discovery-status try" id="discoverStatus" role="status" aria-live="polite">یک معادله بارگذاری کن.</div>
+          <div class="discovery-log" id="discoverLog" aria-live="polite"></div>
+          <div class="lab-note">قانون طلایی: هر کاری با یک کفه می‌کنی، با کفهٔ دیگر هم بکن تا تعادل به‌هم نخورد.</div>
         </div>
       </div>
     </section>
@@ -814,6 +915,7 @@ html[data-liquid="on"] .iconbtn:active,html[data-liquid="on"] .tab-btn:active,ht
 <script src="./assets/gsap/ScrollTrigger.min.js"></script>
 <script src="./assets/glisse/glisse-optics.js"></script>
 <script src="./assets/glisse/glisse-liquid.js"></script>
+<script src="./assets/js/math-lab.js"></script>
 <script>
 'use strict';
 /* ═══════════════════════════════════════════════════════════
@@ -1463,29 +1565,26 @@ const els={};
 
 const SHIRTS=['#f59e0b','#06b6d4','#ec4899','#8b5cf6','#22c55e','#f43f5e','#3b82f6','#14b8a6'];
 const HAIRS=['#4b3a2f','#2f2f2f','#6b4423','#1f2937','#713f12'];
-const state={runId:0,status:'idle',pos:0,visualPos:0,speed:1,sound:true,score:0,range:10,faceDir:1,fpSide:1,stageW:1000};
+const state={runId:0,status:'idle',pos:0,visualPos:0,posExact:null,speed:0.75,sound:true,score:0,range:10,faceDir:1,fpSide:1,stageW:1000,mode:'integer',tickStep:null};
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const store={get(k,d){try{return localStorage.getItem(k)??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 
 /* ---------- SVG‌ها ---------- */
 function charSVG(){
-  return `<svg class="body" viewBox="0 0 100 122" aria-hidden="true">
-    <line x1="64" y1="54" x2="86" y2="18" stroke="#ffcf9e" stroke-width="7.5" stroke-linecap="round"/>
-    <line x1="44" y1="86" x2="39" y2="112" stroke="#334155" stroke-width="8.5" stroke-linecap="round"/>
-    <line x1="56" y1="86" x2="61" y2="112" stroke="#334155" stroke-width="8.5" stroke-linecap="round"/>
-    <ellipse cx="37.5" cy="115" rx="9.5" ry="5" fill="#e11d48"/>
-    <ellipse cx="62.5" cy="115" rx="9.5" ry="5" fill="#e11d48"/>
-    <rect x="32" y="46" width="36" height="43" rx="15" fill="#6366f1"/>
-    <path d="M32 62q-9 4-10 18" stroke="#6366f1" stroke-width="9" fill="none" stroke-linecap="round"/>
-    <line x1="34" y1="58" x2="21" y2="82" stroke="#ffcf9e" stroke-width="7.5" stroke-linecap="round"/>
-    <circle cx="50" cy="27" r="17.5" fill="#ffcf9e"/>
-    <path d="M32.5 26a17.5 17.5 0 0 1 35 0h-35z" fill="#4b3a2f"/>
-    <g class="eyes">
-      <circle class="eye" cx="44" cy="30" r="2.1" fill="#334155"/>
-      <circle class="eye" cx="56" cy="30" r="2.1" fill="#334155"/>
-    </g>
-    <path d="M45 36q5 4 10 0" stroke="#b45309" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <circle cx="88" cy="14" r="3" fill="#fbbf24"/>
+  return `<svg class="body" viewBox="0 0 100 132" aria-hidden="true">
+    <g class="walk-arm right"><path d="M63 61q12 10 13 25" stroke="#153E75" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="76" cy="87" r="4.5" fill="#E8B98C"/></g>
+    <g class="walk-leg left"><path d="M43 92q-4 16-6 30" stroke="#334155" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M31 124q7-3 13 1" stroke="#1E293B" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+    <g class="walk-leg right"><path d="M57 92q5 16 7 30" stroke="#475569" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M58 125q7-3 13 1" stroke="#1E293B" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+    <path d="M35 58q15-9 30 0l6 38q-21 9-42 0z" fill="#153E75"/>
+    <path d="M35 58q15-9 30 0l2 12q-17 7-34 0z" fill="#38BDF8" opacity=".85"/>
+    <g class="walk-arm left"><path d="M37 61q-12 10-13 25" stroke="#153E75" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="24" cy="87" r="4.5" fill="#E8B98C"/></g>
+    <path class="hijab-tail" d="M64 34q10 16 4 34-8-6-10-20z" fill="#0F2F5C"/>
+    <path d="M50 8q-20 0-21 22-1 16 8 25h26q9-9 8-25Q70 8 50 8z" fill="#153E75"/>
+    <path d="M50 14q-13 0-14 15-1 12 6 18h16q7-6 6-18-1-15-14-15z" fill="#E8B98C"/>
+    <path d="M36 29q1-16 14-16t14 16q-4-7-14-7t-14 7z" fill="#0F2F5C"/>
+    <g class="eyes"><circle class="eye" cx="44" cy="32" r="2" fill="#1E293B"/><circle class="eye" cx="56" cy="32" r="2" fill="#1E293B"/></g>
+    <path d="M45 39q5 4 10 0" stroke="#B45309" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M37 47q13 8 26 0" stroke="#38BDF8" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
   </svg>`;
 }
 function kidSVG(i){
@@ -1506,18 +1605,24 @@ function kidSVG(i){
 function axisPad(w){return Math.max(26,w*.06);}
 function valPct(v){const w=state.stageW||1000,pad=axisPad(w);return (pad+((v+state.range)/(2*state.range))*(w-2*pad))/w*100;}
 function buildLineSvg(){
-  const R=state.range,step=R/10,W=Math.max(280,Math.round(state.stageW||1000)),H=340,cy=H/2;
+  const R=state.range,W=Math.max(280,Math.round(state.stageW||1000)),H=340,cy=H/2;
+  const fracMode=state.mode==='fraction'&&state.tickStep;
+  const step=fracMode?HNLMath.toNum(state.tickStep):R/10;
   const X=v=>valPct(v)/100*W;
   const usable=W-2*axisPad(W),maxLabels=Math.max(3,Math.floor(usable/56));
-  const every=[1,2,5,10].find(k=>20/k+1<=maxLabels)||10;
+  const count=Math.round(2*R/step);
+  const every=fracMode?([1,2,4,5,10].find(k=>count/k+1<=maxLabels)||10):([1,2,5,10].find(k=>20/k+1<=maxLabels)||10);
   let ticks='',labels='';
-  for(let k=0;k<=20;k++){
+  for(let k=0;k<=count;k++){
     const v=-R+k*step,x=X(v),major=k%every===0;
     const half=major?12:7;
     ticks+=`<line class="tk${major?' major':''}${v===0?' tkz':''}" x1="${x}" y1="${cy-half}" x2="${x}" y2="${cy+half}"/>`;
     if(major){
       const cls=v<0?'neg':v>0?'pos':'zero';
-      labels+=`<button type="button" class="tickBtn ${cls}" data-v="${v}" style="left:${valPct(v)}%" tabindex="${v===0?0:-1}" aria-label="رفتن به خانهٔ ${fmtN(v,{sign:v!==0})}">${mathHTML(fmtN(v,{sign:v!==0}))}</button>`;
+      const exact=fracMode?HNLMath.mul(state.tickStep,HNLMath.F(k-Math.round(R/step))):null;
+      const label=fracMode?HNLMath.plain(exact,v!==0):fmtN(v,{sign:v!==0});
+      const labelHtml=fracMode?labMathHTML(HNLMath.tex(exact,v!==0),label):mathHTML(label);
+      labels+=`<button type="button" class="tickBtn ${cls}${fracMode?' fraction':''}" data-glass="control" data-v="${v}"${exact?` data-n="${exact.n}" data-d="${exact.d}"`:''} style="left:${valPct(v)}%" tabindex="${v===0?0:-1}" aria-label="رفتن به خانهٔ ${label}">${labelHtml}</button>`;
     }
   }
   const x0=X(-R),x1=X(R),zx=X(0);
@@ -1535,11 +1640,17 @@ function buildLineSvg(){
     <span class="axis-dir pos"><span>+ یعنی به راست</span><svg viewBox="0 0 40 14"><path d="M2 7h34m0 0-6-5m6 5-6 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span>
   </div>`;
 }
-function setRange(r){
-  state.range=r;
+function labMathHTML(tex,plain){
+  if(window.katex){try{return '<span class="math-render">'+katex.renderToString(tex,{throwOnError:false,displayMode:false,output:'htmlAndMathml'})+'</span>';}catch(e){}}
+  return '<span class="math-render">'+escapeHtml(plain)+'</span>';
+}
+function setRange(r,tickStep){
+  state.range=r;state.tickStep=tickStep||null;
   const sr=stageRect();if(sr)state.stageW=sr.width;
   els.lineSvgWrap.innerHTML=buildLineSvg();
-  els.rangeBadge.innerHTML=`محورِ ${mathHTML(fmtN(-r))} تا ${mathHTML(fmtN(r,{sign:true}))}`;
+  els.rangeBadge.innerHTML=state.mode==='fraction'&&state.tickStep?`محورِ ${labMathHTML(HNLMath.tex(HNLMath.F(-r)),HNLMath.plain(HNLMath.F(-r)))} تا ${labMathHTML(HNLMath.tex(HNLMath.F(r),true),HNLMath.plain(HNLMath.F(r),true))} — گام‌های ${labMathHTML(HNLMath.tex(state.tickStep),HNLMath.plain(state.tickStep))}`:`محورِ ${mathHTML(fmtN(-r))} تا ${mathHTML(fmtN(r,{sign:true}))}`;
+  document.dispatchEvent(new Event('hnl:glass-refresh'));
+  if(window.GlisseLiquid)window.GlisseLiquid.mount().refresh();
 }
 
 /* ---------- صداها (WebAudio — بدون فایل) ---------- */
@@ -1659,7 +1770,8 @@ function addChip(html,final){
 }
 function addGhost(v){
   const g=document.createElement('div');
-  g.className='ghost';g.innerHTML=mathHTML(fmtN(v,{sign:true}));
+  const exact=state.mode==='fraction'&&state.posExact;
+  g.className='ghost';g.innerHTML=exact?labMathHTML(HNLMath.tex(state.posExact,true),HNLMath.plain(state.posExact,true)):mathHTML(fmtN(v,{sign:true}));
   g.style.left=valPct(v)+'%';
   els.ghosts.querySelectorAll('.ghost').forEach(x=>x.classList.add('old'));
   els.ghosts.appendChild(g);
@@ -1703,7 +1815,8 @@ function setFace(dir){
 }
 function updateCard(){
   if(!charCard)return;
-  charCard.innerHTML=mathHTML(fmtN(state.pos,{sign:true}));
+  const exact=state.mode==='fraction'&&state.posExact;
+  charCard.innerHTML=exact?labMathHTML(HNLMath.tex(state.posExact,true),HNLMath.plain(state.posExact,true)):mathHTML(fmtN(state.pos,{sign:true}));
   charCard.className='ccard '+(state.pos<0?'cn':state.pos>0?'cp':'');
 }
 let activeJump=null;
@@ -1727,7 +1840,7 @@ function charIdle(){
 function cancelJump(){
   if(!activeJump)return;
   cancelAnimationFrame(activeJump.raf);
-  const a=activeJump;activeJump=null;a.resolve(false);
+  const a=activeJump;activeJump=null;els.char.classList.remove('walking');a.resolve(false);
 }
 function clearEffects(){
   els.stage.querySelectorAll('.conf,.dust,.ring,.footprint').forEach(n=>n.remove());
@@ -1777,8 +1890,10 @@ async function jumpTo(toVal,opts){
   const from=state.visualPos,dist=toVal-from;
   if(dist)setFace(Math.sign(dist));
   if(reduceMotion.matches){state.pos=toVal;applyLeft(toVal);updateCard();return true;}
-  const dur=Math.max(70,opts.ms||420),arcH=Math.min(opts.arc||40,56);
+  const dur=Math.max(240,opts.ms||700);
   hopwrap.classList.remove('bob');
+  els.char.classList.add('walking');
+  els.char.style.setProperty('--walk-cycle',(0.9/Math.max(.25,state.speed)).toFixed(2)+'s');
   return new Promise(resolve=>{
     let last=performance.now(),elapsed=0;
     const a={raf:0,resolve};activeJump=a;
@@ -1788,16 +1903,13 @@ async function jumpTo(toVal,opts){
       const tt=Math.min(1,elapsed/dur);
       const ee=tt<.5?2*tt*tt:1-Math.pow(-2*tt+2,2)/2;
       applyLeft(from+dist*ee);
-      const h=Math.sin(Math.PI*tt)*arcH;
-      hopwrap.style.transform=`translateY(${-h.toFixed(1)}px)`;
-      if(charShadow){charShadow.style.transform=`translateX(-50%) scaleX(${Math.max(.5,1-h/130).toFixed(2)})`;charShadow.style.opacity=String(Math.max(.35,1-h/170));}
-      if(bodyWrap){const st=1+Math.sin(Math.PI*tt)*.09;bodyWrap.style.transform=`scale(${(2-st).toFixed(3)},${st.toFixed(3)}) rotate(${((state.faceDir||1)*Math.sin(Math.PI*tt)*5).toFixed(1)}deg)`;}
+      if(charShadow){charShadow.style.transform='translateX(-50%) scaleX('+(1-Math.abs(Math.sin(tt*Math.PI*4))*.06).toFixed(2)+')';}
       if(tt<1){a.raf=requestAnimationFrame(step);}
       else{
-        activeJump=null;hopwrap.style.transform='';bodyWrap.style.transform='';
+        activeJump=null;els.char.classList.remove('walking');hopwrap.style.transform='';bodyWrap.style.transform='';
         if(charShadow){charShadow.style.transform='translateX(-50%)';charShadow.style.opacity='';}
         state.pos=toVal;applyLeft(toVal);updateCard();
-        sHop();squash();dust();resolve(true);
+        sHop();footprint();resolve(true);
       }
     };
     a.raf=requestAnimationFrame(step);
@@ -1806,18 +1918,18 @@ async function jumpTo(toVal,opts){
 let hopSoundN=0;
 async function doStep(size,fast){
   const n=Math.abs(size);
-  let ms=fast?clamp(1300/Math.sqrt(n+1),90,230):clamp(500*(0.5+0.11*Math.min(n,9)),150,950);
-  const ok=await jumpTo(state.pos+size,{ms,arc:fast?48:32+Math.min(n*5,30)});
+  let ms=fast?clamp(1800/Math.sqrt(n+1),320,520):clamp(900*(0.55+0.12*Math.min(n,9)),420,1500);
+  const ok=await jumpTo(state.pos+size,{ms});
   if(!ok)return false;
-  footprint();hopSoundN++;return true;
+  hopSoundN++;return true;
 }
 async function doMove(delta,quick){
-  if(delta===0){return jumpTo(state.pos,{ms:320,arc:26});}
+  if(delta===0){return jumpTo(state.pos,{ms:420});}
   const n=Math.abs(delta),dir=Math.sign(delta);
-  if(n>8||(quick&&n>4)){
-    const ok=await jumpTo(state.pos+delta,{ms:clamp(280+95*n,520,1400),arc:64+Math.min(n*3,40)});
+  if(state.mode==='fraction'||!Number.isInteger(delta)||n>8||(quick&&n>4)){
+    const ok=await jumpTo(state.pos+delta,{ms:clamp(700+180*n,900,3200)});
     if(!ok)return false;
-    ringFx();footprint();return true;
+    ringFx();return true;
   }else{
     for(let i=0;i<n;i++){const ok=await doStep(dir,false);if(!ok)return false;}
     return true;
@@ -1862,7 +1974,8 @@ async function run(plan){
   const alive=()=>state.runId===id;
   cancelJump();clearEffects();
   state.status='running';setButtons();
-  setRange(plan.range);renderExpr(plan);resetRun();
+  setRange(plan.range,plan.tickStep);renderExpr(plan);resetRun();
+  state.posExact=null;
   swapAnim();setPos(0,0);setFace(1);
   try{
     for(const act of plan.actions){
@@ -1872,11 +1985,13 @@ async function run(plan){
       if(!await pause(680,id))return;
       switch(act.k){
         case 'start':
+          if(act.exact)state.posExact=act.exact;
           swapAnim();setPos(act.val,0);
           if(!await pause(520,id))return;
           break;
         case 'walk':if(!await doMove(act.delta))return;break;
         case 'walkTo':
+          if(act.exact)state.posExact=act.exact;
           if(state.pos!==act.to){if(!await doMove(act.to-state.pos,true))return;}
           break;
         case 'hops':
@@ -1891,12 +2006,13 @@ async function run(plan){
           if(!act.noEnd){if(!await doMove(act.q-state.pos,true))return;}
           break;
         }
+        case 'note':break;
         case 'badge':addBadge(act.tok,act.val);break;
         case 'reveal':doReveal(act,plan);break;
       }
       if(!alive())return;
       if(!act.noMark)markDone(act.tok);
-      if(act.chip)addChip(act.chip,act.final);
+      if(act.chip)addChip(plan.type&&plan.type.indexOf('fraction')===0&&act.chipTex?labMathHTML(act.chipTex,act.chip):act.chip,act.final);
       if(['walk','hops','divhops','badge'].includes(act.k))addGhost(state.pos);
       if(!await pause(320,id))return;
     }
@@ -1910,12 +2026,12 @@ function doReveal(act,plan){
   else if(act.verdict==='bad'){face='✗';cls='badv';}
   else if(act.verdict==='inf'){face='∞';cls='good';}
   else if(act.verdict==='none'){face='✗';cls='badv';}
-  else{face=fmtN(act.val,{sign:true});}
+  else{face=act.valExact?HNLMath.plain(act.valExact,true):fmtN(act.val,{sign:true});}
   (plan.flipIdxs||[]).forEach(idx=>{
     const k=kids[idx];if(!k)return;
     const fe=k.querySelector('.flipcard');if(!fe)return;
     const back=fe.querySelector('.back');
-    back.innerHTML=(face==='✓'||face==='✗')?escapeHtml(face):mathHTML(face);
+    back.innerHTML=(face==='✓'||face==='✗')?escapeHtml(face):(act.valExact?labMathHTML(HNLMath.tex(act.valExact,true),face):mathHTML(face));
     back.className='kface back '+cls;
     fe.classList.add('flipped');
   });
@@ -1923,7 +2039,7 @@ function doReveal(act,plan){
   if(act.verdict==='bad'){
     sBad();
     els.exprRow.classList.remove('shake');void els.exprRow.offsetWidth;els.exprRow.classList.add('shake');
-    setResult('جوابِ درستِ عبارت',nspHTML(act.val),'bad','bad');
+    setResult('جوابِ درستِ عبارت',act.valExact?labMathHTML(HNLMath.tex(act.valExact,true),HNLMath.plain(act.valExact,true)):nspHTML(act.val),'bad','bad');
     setScore(state.score);
   }else if(act.verdict==='none'){
     sBad();
@@ -1935,8 +2051,9 @@ function doReveal(act,plan){
     setScore(state.score+1);
   }else{
     const rid=state.runId;setTimeout(()=>{if(state.runId!==rid)return;sOk();confetti();cheer();},Math.round(260/state.speed));
-    if(plan.type==='xeq')setResult('مقدارِ x',nspHTML(act.val),act.val<0?'neg':act.val>0?'pos':'','ok');
-    else setResult('نتیجه‌ی عبارت',nspHTML(act.val),act.val<0?'neg':act.val>0?'pos':'','ok');
+    const valHtml=act.valExact?labMathHTML(HNLMath.tex(act.valExact,true),HNLMath.plain(act.valExact,true)):nspHTML(act.val);
+    if(plan.type==='xeq'||plan.type==='fraction-eq')setResult('مقدارِ x',valHtml,act.val<0?'neg':act.val>0?'pos':'','ok');
+    else setResult('نتیجه‌ی عبارت',valHtml,act.val<0?'neg':act.val>0?'pos':'','ok');
     setScore(state.score+1);
   }
 }
@@ -1950,7 +2067,7 @@ function preview(){
     if(state.status==='running')return;
     const v=els.expr.value.trim();
     if(!v){els.exprRow.innerHTML='<span class="tl-hint" style="align-self:center;margin:0 auto">یک عبارت بنویس یا «تمرین تصادفی» را بزن…</span>';return;}
-    try{const plan=buildPlan(v);renderExpr(plan);setRange(plan.range);}
+    try{const plan=state.mode==='fraction'?HNLMath.fractionPlan(v):buildPlan(v);renderExpr(plan);setRange(plan.range,plan.tickStep);}
     catch(e){}
   },260);
 }
@@ -1963,7 +2080,7 @@ function clearExprError(){
 }
 function tryPlay(){
   try{
-    const plan=buildPlan(els.expr.value);
+    const plan=state.mode==='fraction'?HNLMath.fractionPlan(els.expr.value):buildPlan(els.expr.value);
     clearExprError();
     run(plan);
   }catch(e){
@@ -1980,17 +2097,16 @@ els.btnRun.addEventListener('click',()=>{ac();tryPlay();});
 els.btnStop.addEventListener('click',()=>stopRun('بازی متوقف شد؛ هر وقت خواستی دوباره اجرا کن.'));
 els.btnReset.addEventListener('click',()=>{
   stopRun();resetRun();setPos(0,0);setFace(1);
-  try{const plan=buildPlan(els.expr.value||'−۳+۵');setRange(plan.range);renderExpr(plan);}catch(e){}
+  try{const plan=state.mode==='fraction'?HNLMath.fractionPlan(els.expr.value||'۱/۲+۱/۳'):buildPlan(els.expr.value||'−۳+۵');setRange(plan.range,plan.tickStep);renderExpr(plan);}catch(e){}
   ringFx();
   narrate(N('همه‌چیز از نو! از صفر شروع می‌کنیم. یک عبارت بگو… 🎲'));
 });
 els.btnRand.addEventListener('click',()=>{
   ac();
   try{
-    const e=gen(+els.lvl.value);
-    els.expr.value=pretty(e);
+    if(state.mode==='fraction'){els.expr.value=pick(HNLMath.EXAMPLES.fraction);}else{const e=gen(+els.lvl.value);els.expr.value=pretty(e);}
     clearExprError();
-    const plan=buildPlan(els.expr.value);
+    const plan=state.mode==='fraction'?HNLMath.fractionPlan(els.expr.value):buildPlan(els.expr.value);
     run(plan);
   }catch(err){toast(err.message,true);}
 });
@@ -2017,7 +2133,7 @@ document.querySelectorAll('.kbtn').forEach(b=>{
 
 function updateSpeedUI(){
   state.speed=+els.speed.value;
-  const value=faDig(state.speed.toFixed(1).replace('.','٫'));
+  const value=faDig(state.speed.toFixed(2).replace(/0$/,'').replace('.','٫'));
   els.speedVal.textContent='×'+value;
   els.speed.setAttribute('aria-valuetext',value+' برابر سرعت پایه');
 }
@@ -2067,11 +2183,12 @@ function positionTabIndicator(){
   const listRect=tabList.getBoundingClientRect();
   const rect=active.getBoundingClientRect();
   tabIndicator.style.width=rect.width+'px';
+  tabIndicator.style.height=rect.height+'px';
   if(document.documentElement.getAttribute('data-liquid')==='on'){
     document.dispatchEvent(new Event('hnl:tab-selected'));
     return;
   }
-  tabIndicator.style.transform='translate3d('+(rect.left-listRect.left-tabList.clientLeft)+'px,0,0)';
+  tabIndicator.style.transform='translate3d('+(rect.left-listRect.left-tabList.clientLeft)+'px,'+(rect.top-listRect.top-tabList.clientTop)+'px,0)';
 }
 function activateTab(button,focus,animate){
   tabList.dataset.input=focus?'keyboard':'pointer';
@@ -2113,9 +2230,9 @@ window.addEventListener('resize',()=>{
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{positionTabIndicator();schedulePanelMotion();});
 
 /* کلیک روی خانه‌های محور */
-function walkToValue(v){
+function walkToValue(v,exact){
   if(state.status==='running')return;
-  const id=++state.runId;
+  const id=++state.runId;state.posExact=exact||null;
   cancelJump();clearEffects();state.status='walking';setButtons();
   (async()=>{
     if(state.visualPos!==state.pos)await jumpTo(state.pos,{ms:160,arc:0});
@@ -2123,17 +2240,19 @@ function walkToValue(v){
     if(!await doMove(v-state.pos,true))return;
     if(state.runId!==id)return;
     state.status='idle';setButtons();charIdle();
-    narrate(N(`خانه‌ی ${nsp(v,{sign:true})} — ${v<0?'سمتِ منفی‌ها':v>0?'سمتِ مثبت‌ها':'دقیقاً وسطِ محور!'} 👣`));
+    narrate(N(`خانه‌ی ${exact?labMathHTML(HNLMath.tex(exact,true),HNLMath.plain(exact,true)):nsp(v,{sign:true})} — ${v<0?'سمتِ منفی‌ها':v>0?'سمتِ مثبت‌ها':'دقیقاً وسطِ محور!'} 👣`));
   })();
 }
 els.lineSvgWrap.addEventListener('click',e=>{
   const b=e.target.closest('.tickBtn');
-  if(b){walkToValue(+b.dataset.v);return;}
+  if(b){const v=+b.dataset.v;const exact=b.dataset.n?HNLMath.F(+b.dataset.n,+b.dataset.d):null;walkToValue(v,exact);return;}
   if(!e.target.closest('#lineSvg'))return;
   const r=els.stage.getBoundingClientRect();if(!r.width)return;
   const pad=axisPad(r.width),frac=clamp((e.clientX-r.left-pad)/(r.width-2*pad),0,1);
-  const step=state.range/10;
-  walkToValue(clamp(Math.round((frac*2*state.range-state.range)/step)*step,-state.range,state.range));
+  const step=state.mode==='fraction'&&state.tickStep?HNLMath.toNum(state.tickStep):state.range/10;
+  const v=clamp(Math.round((frac*2*state.range-state.range)/step)*step,-state.range,state.range);
+  const exact=state.mode==='fraction'&&state.tickStep?HNLMath.mul(state.tickStep,HNLMath.F(Math.round(v/step))):null;
+  walkToValue(v,exact);
 });
 els.lineSvgWrap.addEventListener('keydown',e=>{
   const b=e.target.closest('.tickBtn');if(!b)return;
@@ -2205,18 +2324,18 @@ let p4LastPercent=-1;
 function schedulePanelMotion(){cancelAnimationFrame(p4RefreshFrame);p4RefreshFrame=requestAnimationFrame(refreshPanelMotion);}
 function killPanelMotion(){
   p4Triggers.forEach(t=>t.kill());p4Triggers=[];
-  if(window.gsap){gsap.killTweensOf('.g-hero,.g-card,.note-card,.pcard');}
+  if(window.gsap){gsap.killTweensOf('.g-hero,.g-card,.note-card,.pcard,.lab-hero,.lab-card');}
 }
 function refreshPanelMotion(){
   killPanelMotion();
   const panel=document.querySelector('.panel:not([hidden])');
   if(!panel)return;
-  const targets=panel.querySelectorAll('.g-hero,.g-card,.note-card,.pcard');
+  const targets=panel.querySelectorAll('.g-hero,.g-card,.note-card,.pcard,.lab-hero,.lab-card');
   const bar=document.getElementById('readProgressBar');
   if(!window.gsap||!window.ScrollTrigger){if(bar)bar.style.transform='scaleX(0)';return;}
   gsap.registerPlugin(ScrollTrigger);
   if(reduceMotion.matches){
-    gsap.set('.g-hero,.g-card,.note-card,.pcard',{clearProps:'opacity,transform'});
+    gsap.set('.g-hero,.g-card,.note-card,.pcard,.lab-hero,.lab-card',{clearProps:'opacity,transform'});
   }else{
     gsap.set(targets,{opacity:0,y:12});
     p4Triggers.push(...ScrollTrigger.batch(targets,{
@@ -2259,6 +2378,7 @@ function init(){
   syncSoundUI();
   syncFullscreenUI();
   positionTabIndicator();
+  document.querySelectorAll('.kbtn,select,#toastClose').forEach(b=>b.setAttribute('data-glass','control'));
   if(window.GlisseOptics)window.GlisseOptics.mount();
   if(window.GlisseLiquid)window.GlisseLiquid.mount();
 }
@@ -2267,5 +2387,6 @@ typesetStaticMath();
 positionTabIndicator();
 refreshPanelMotion();
 </script>
+<script src="./assets/js/lab.js"></script>
 </body>
 </html>
